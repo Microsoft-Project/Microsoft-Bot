@@ -33,7 +33,11 @@
     * Gagandeep Singh:
  
     * Haider Ali:
-    
+
+* Did we achieve we planned this sprint? If not, what did we not achieve and why?
+  * Type answer here...
+  
+  
 ### Sprint planning
 
 * What are you panning to do next sprint?
