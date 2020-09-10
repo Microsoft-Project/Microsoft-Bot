@@ -6,33 +6,36 @@ from PyDictionary import PyDictionary
 client = MongoClient('mongodb://localhost:27017')
 db = client['github']
 
-collections = db.list_collection_names()
-
-
 class pullRequestLabels:
 
-    def queryRepoNames(self):
-        query = db.get_collection('Trend_repo_names').aggregate([
-            {'$lookup':
-                {
-                    'from': 'pull_requests',
-                    'localField': 'name',
-                    'foreignField': 'repo',
-                    'as': 'array'
-                }
-            },
-            {'$unwind': '$array'},
-            {'$project': {'array.labels': True, '_id': False}}
-        ])
+    def queryRepoNames(self, collectionList):
+        if 'Trend_repo_names' and 'pull_requests' in collectionList:
 
-        pullList = []
-        nameList=[]
-        for list_pull_requests in query:
-            if len(list_pull_requests['array']['labels']) > 0 :
-                pullList.append(list_pull_requests['array']['labels'])
+            query = db.get_collection('Trend_repo_names').aggregate([
+                {'$lookup':
+                    {
+                        'from': 'pull_requests',
+                        'localField': 'name',
+                        'foreignField': 'repo',
+                        'as': 'array'
+                    }
+                },
+                {'$unwind': '$array'},
+                {'$project': {'array.labels': True, '_id': False}}
+            ])
 
-        for lists in pullList:
-            for obj in lists:
-                nameList.append(obj["name"])
-        return nameList
+            pullList = []
+            nameList=[]
+            for list_pull_requests in query:
+                if len(list_pull_requests['array']['labels']) > 0 :
+                    pullList.append(list_pull_requests['array']['labels'])
 
+            for lists in pullList:
+                for obj in lists:
+                    nameList.append(obj["name"])
+
+            nameList = list(dict.fromkeys(nameList))
+
+            return nameList
+        else:
+            print('Trend_repo_names or pull_requests are missing ....')

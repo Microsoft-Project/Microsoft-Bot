@@ -1,7 +1,10 @@
-import pprint
+import time
 import numpy as np
 from pymongo import MongoClient
 from PyDictionary import PyDictionary
+
+from repo_label_extractor import repo_label_extractor
+from pull_request_label_extractor import pullRequestLabels
 
 client = MongoClient('mongodb://localhost:27017')
 db = client['github']
@@ -45,40 +48,17 @@ def updateTrendNames(collectionsList):
 
 ### Call Only the following when want to update the trendings
 # updateTrendings(collections)
+# time.sleep(2)
 # updateTrendNames(collections)
 
+# label list
+labelList = []
 
-query = db.get_collection('Trend_repo_names').aggregate([
-    {'$lookup':
-        {
-            'from': 'repo_labels',
-            'localField': 'name',
-            'foreignField': 'repo',
-            'as': 'array'
-        }
-    },
-    {'$unwind': '$array'},
-    {'$project': {'array.name': True, '_id': False}}
-])
-
-nameList = []
-count = 0
-for obj in query:
-    nameList.append(obj['array']['name'])
-
-# print(nameList)
-
-nameList = list(dict.fromkeys(nameList))
-
-print(nameList)
-
-#
-# dictionary=PyDictionary()
-#
-#
-# for vars in singleVars:
-#     print(vars, '    ', dictionary.synonym(vars))
-
+# label extracting from the repo_labels collection from dump data
+repo_labels_ex = repo_label_extractor()
+for obj in repo_labels_ex.extractLabels(collections):
+    labelList.append(obj)
+print(labelList)
 
 
 print('done')
