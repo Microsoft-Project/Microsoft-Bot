@@ -54,9 +54,21 @@ def updateTrendNames(collectionsList):
 # label list
 labelList = []
 
-# label extracting from the repo_labels collection from dump data
+# label extraction from the repo_labels collection from dump data
 repo_labels_ex = repo_label_extractor()
 for obj in repo_labels_ex.extractLabels(collections):
+    labelList.append(obj)
+print(labelList)
+
+#label extration from dump data pullrequests
+pullrequest_ex = pullRequestLabels()
+for obj in pullrequest_ex.queryRepoNames(collections):
+    labelList.append(obj)
+print(labelList)
+
+#label extraction from dump issues
+issue_ex = issueLabels()
+for obj in issue_ex.queryRepoNames(collections):
     labelList.append(obj)
 print(labelList)
 
