@@ -9,8 +9,7 @@ db = client['github']
 
 class issueLabels:
 
-
-    def extractLabels(self,collectionList):
+    def extractlabels(self,collectionList):
         if 'Trend_repo_names' and 'issues' in collectionList:
             query = db.get_collection('Trend_repo_names').aggregate([
                 {'$lookup':
@@ -32,13 +31,11 @@ class issueLabels:
                 if len(list_pull_requests['array']['labels']) > 0 :
                     issuesList.append(list_pull_requests['array']['labels'])
 
-            print(issuesList)
-            #
             labels = []
             for lists in issuesList:
                 for obj in lists:
                     labels.append(obj['name'])
 
+            labels = list(dict.fromkeys(labels))
 
-            for label in labels:
-                print(label)
+            return labels

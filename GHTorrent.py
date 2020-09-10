@@ -5,6 +5,7 @@ from PyDictionary import PyDictionary
 
 from repo_label_extractor import repo_label_extractor
 from pull_request_label_extractor import pullRequestLabels
+from issues_label_extractor import issueLabels
 
 client = MongoClient('mongodb://localhost:27017')
 db = client['github']
@@ -68,7 +69,7 @@ print(labelList)
 
 #label extraction from dump issues
 issue_ex = issueLabels()
-for obj in issue_ex.queryRepoNames(collections):
+for obj in issue_ex.extractlabels(collections):
     labelList.append(obj)
 print(labelList)
 
