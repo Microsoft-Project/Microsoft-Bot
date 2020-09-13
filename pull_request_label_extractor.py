@@ -21,21 +21,30 @@ class pullRequestLabels:
                     }
                 },
                 {'$unwind': '$array'},
-                {'$project': {'array.labels': True, '_id': False}}
+                {'$project': {'array.labels': True,'name': True, '_id': False}}
             ])
 
             pullList = []
             nameList=[]
+            company = []
+
             for list_pull_requests in query:
-                if len(list_pull_requests['array']['labels']) > 0 :
+                if len(list_pull_requests['array']['labels']) > 0:
+                    company.append(list_pull_requests['name'])
                     pullList.append(list_pull_requests['array']['labels'])
 
+            newComp = []
+            i = 0
             for lists in pullList:
                 for obj in lists:
                     nameList.append(obj["name"])
+                    newComp.append(company[i])
+                i += 1
 
-            nameList = list(dict.fromkeys(nameList))
+            # nameList = list(dict.fromkeys(nameList))
 
-            return nameList
+            print(len(newComp))
+            print(len(nameList))
+            return nameList , newComp
         else:
             print('Trend_repo_names or pull_requests are missing ....')
