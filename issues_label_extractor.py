@@ -21,21 +21,30 @@ class issueLabels:
                     }
                 },
                 {'$unwind': '$array'},
-                {'$project': {'array.labels': True, '_id': False}}
+                {'$project': {'array.labels': True, 'name': True, '_id': False}}
             ])
 
 
             issuesList = []
+            company =  []
             count = 0
             for list_pull_requests in query:
-                if len(list_pull_requests['array']['labels']) > 0 :
+                if len(list_pull_requests['array']['labels']) > 0:
+                    company.append(list_pull_requests['name'])
                     issuesList.append(list_pull_requests['array']['labels'])
 
+
+            newComp = []
+            i = 0
             labels = []
             for lists in issuesList:
                 for obj in lists:
                     labels.append(obj['name'])
+                    newComp.append(company[i])
+                i += 1
 
-            labels = list(dict.fromkeys(labels))
+            # labels = list(dict.fromkeys(labels))
 
-            return labels
+            print(len(newComp))
+            print(len(labels))
+            return labels, newComp
