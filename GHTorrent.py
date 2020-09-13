@@ -19,6 +19,7 @@ def updateTrendings(collectionsList):
     if "Trendings" in collectionsList:
         # drop the old trending repos data
         db.drop_collection("Trendings")
+        time.sleep(2)
     if 'repos' in collectionsList:
         # query the new trending repos
         trendings_repos = db.get_collection('repos').find(
@@ -36,6 +37,7 @@ def updateTrendNames(collectionsList):
     if "Trend_repo_names" in collectionsList:
         # drop the old trending repos data
         db.drop_collection("Trend_repo_names")
+        time.sleep(2)
 
     if 'Trendings' in collectionsList:
 
@@ -47,15 +49,25 @@ def updateTrendNames(collectionsList):
         print('There are no trending repos collection')
 
 
-def populate_label_data(collectionsList, np_list):
-    if "Trending_Labels" in collectionsList is False:
-        db.create_collection("Trending_Labels")
+def populate_label_data(collectionsList, np_list1,np_list2,np_list3):
+    if "Trending_Labels" in collectionsList:
+        db.drop_collection("Trending_Labels")
+        time.sleep(2)
 
+    db.create_collection("Trending_Labels")
+    size_List1 = np_list1.shape[0]
+    for i in range(size_List1):
+        tuple = {'company': np_list1[i:i + 1, 0][0], 'label': np_list1[i:i + 1, 1][0]}
+        db['Trending_Labels'].insert_one(tuple)
 
-    size_List = np_list.shape[0]
+    size_List2 = np_list2.shape[0]
+    for i in range(size_List2):
+        tuple = {'company': np_list2[i:i + 1, 0][0], 'label': np_list2[i:i + 1, 1][0]}
+        db['Trending_Labels'].insert_one(tuple)
 
-    for i in range(size_List):
-        tuple = {'company': np_list[i:i+1, 0][0], 'label': np_list[i:i+1, 1][0]}
+    size_List3 = np_list3.shape[0]
+    for i in range(size_List3):
+        tuple = {'company': np_list3[i:i + 1, 0][0], 'label': np_list3[i:i + 1, 1][0]}
         db['Trending_Labels'].insert_one(tuple)
 
 
@@ -81,8 +93,6 @@ issue_labels = issue_ex.extractlabels(collections)
 # print(repo_labels, '\n', pull_labels, '\n', issue_labels)
 
 # populate the table with Labels
-populate_label_data(collections, repo_labels)
-populate_label_data(collections, pull_labels)
-populate_label_data(collections, issue_labels)
+populate_label_data(collections, repo_labels, pull_labels, issue_labels)
 
 print('done')
