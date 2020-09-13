@@ -43,8 +43,11 @@ class issueLabels:
                     newComp.append(company[i])
                 i += 1
 
-            # labels = list(dict.fromkeys(labels))
+            numArray = np.array([])
+            for i in range(len(company)):
+                temp = np.array([[newComp[i], labels[i]]])
+                numArray = np.append(numArray, temp)
 
-            print(len(newComp))
-            print(len(labels))
-            return labels, newComp
+            numArray = numArray.reshape(int((numArray.size / 2)), 2)
+
+            return numArray

@@ -31,7 +31,6 @@ class repo_label_extractor:
             numArray = np.array([])
             for i in range(len(company)):
                 temp = np.array([[company[i],nameList[i]]])
-                print(temp.shape)
                 numArray = np.append(numArray,temp)
 
             numArray = numArray.reshape(int((numArray.size/2)),2)

@@ -46,45 +46,34 @@ def updateTrendNames(collectionsList):
     else:
         print('There are no trending repos collection')
 
+def populate_label_data (np_list):
+    print()
 
-### Call Only the following when want to update the trendings
+### Uncomment the following only when want to update or create the Trending Collection
 # updateTrendings(collections)
 # time.sleep(2)
 # updateTrendNames(collections)
 
-# label list
-labelList = []
-company = []
-
 
 # label extraction from the repo_labels collection from dump data
 repo_labels_ex = repo_label_extractor()
-temp_list, temp_comp = repo_labels_ex.extractLabels(collections)
-for obj in temp_list:
-    labelList.append(obj)
-for obj in temp_comp:
-    company.append(obj)
+repo_labels = repo_labels_ex.extractLabels(collections)
 
-#label extration from dump data pullrequests
-pullrequest_ex = pullRequestLabels()
+# label extraction from dump data pull requests
+pull_request_ex = pullRequestLabels()
+pull_labels = pull_request_ex.queryRepoNames(collections)
 
-temp_list, temp_comp = pullrequest_ex.queryRepoNames(collections)
-for obj in temp_list:
-    labelList.append(obj)
-for obj in temp_comp:
-    company.append(obj)
-
-
-#label extraction from dump issues
+# label extraction from dump issues
 issue_ex = issueLabels()
-temp_list, temp_comp = issue_ex.extractlabels(collections)
-for obj in temp_list:
-    labelList.append(obj)
-for obj in temp_comp:
-    company.append(obj)
+issue_labels = issue_ex.extractlabels(collections)
 
+print(repo_labels.shape, pull_labels.shape, issue_labels.shape)
+print(repo_labels, '\n', pull_labels, '\n', issue_labels)
 
-# print(len(labelList))
-# print(len(company))
+#populate the table with Labels
+populate_label_data(repo_labels)
+populate_label_data(pull_labels)
+populate_label_data(issue_labels)
+
 
 print('done')
