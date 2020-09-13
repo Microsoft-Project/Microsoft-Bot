@@ -34,7 +34,7 @@ class repo_label_extractor:
                 print(temp.shape)
                 numArray = np.append(numArray,temp)
 
-            
+            numArray = numArray.reshape(int((numArray.size/2)),2)
 
-            return nameList, company
+            return numArray
 
