@@ -28,14 +28,13 @@ class repo_label_extractor:
                 company.append(obj['name'])
                 nameList.append(obj['array']['name'])
 
-            # nameList = list(dict.fromkeys(nameList))
-
             numArray = np.array([])
-            # for i in range(len(company)):
-            #     temp = np.array([[company[i],nameList[i]]])
-            #     print(temp.shape)
-                # numArray = np.append(numArray,temp)
+            for i in range(len(company)):
+                temp = np.array([[company[i],nameList[i]]])
+                print(temp.shape)
+                numArray = np.append(numArray,temp)
 
+            
 
             return nameList, company
 
