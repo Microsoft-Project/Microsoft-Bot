@@ -6,6 +6,7 @@ from PyDictionary import PyDictionary
 client = MongoClient('mongodb://localhost:27017')
 db = client['github']
 
+
 class pullRequestLabels:
 
     def queryRepoNames(self, collectionList):
@@ -21,21 +22,33 @@ class pullRequestLabels:
                     }
                 },
                 {'$unwind': '$array'},
-                {'$project': {'array.labels': True, '_id': False}}
+                {'$project': {'array.labels': True, 'name': True, '_id': False}}
             ])
 
             pullList = []
-            nameList=[]
+            nameList = []
+            company = []
+
             for list_pull_requests in query:
-                if len(list_pull_requests['array']['labels']) > 0 :
+                if len(list_pull_requests['array']['labels']) > 0:
+                    company.append(list_pull_requests['name'])
                     pullList.append(list_pull_requests['array']['labels'])
 
+            newComp = []
+            i = 0
             for lists in pullList:
                 for obj in lists:
                     nameList.append(obj["name"])
+                    newComp.append(company[i])
+                i += 1
 
-            nameList = list(dict.fromkeys(nameList))
+            numArray = np.array([])
+            for i in range(len(company)):
+                temp = np.array([[newComp[i], nameList[i]]])
+                numArray = np.append(numArray, temp)
 
-            return nameList
+            numArray = numArray.reshape(int((numArray.size / 2)), 2)
+
+            return numArray
         else:
             print('Trend_repo_names or pull_requests are missing ....')

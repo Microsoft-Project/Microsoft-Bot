@@ -20,13 +20,20 @@ class repo_label_extractor:
                     }
                 },
                 {'$unwind': '$array'},
-                {'$project': {'array.name': True, '_id': False}}
+                {'$project': {'array.name': True, 'name': True, '_id': False}}
             ])
             nameList = []
+            company = []
             for obj in query:
+                company.append(obj['name'])
                 nameList.append(obj['array']['name'])
 
-            nameList = list(dict.fromkeys(nameList))
+            numArray = np.array([])
+            for i in range(len(company)):
+                temp = np.array([[company[i],nameList[i]]])
+                numArray = np.append(numArray,temp)
 
-            return nameList
+            numArray = numArray.reshape(int((numArray.size/2)),2)
+
+            return numArray
 
