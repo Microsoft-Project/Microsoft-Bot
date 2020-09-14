@@ -1,39 +1,47 @@
-import pprint
 import numpy as np
 from pymongo import MongoClient
-from PyDictionary import PyDictionary
 
 client = MongoClient('mongodb://localhost:27017')
 db = client['github']
 
-class repo_label_extractor:
 
-    def extractLabels(self, collectionList):
-        if 'Trend_repo_names' and 'repo_labels' in collectionList:
-            query = db.get_collection('Trend_repo_names').aggregate([
-                {'$lookup':
+class RepoLabel:
+    @staticmethod
+    def get_labels(collection):
+        if 'trending_repo_names' and 'repo_labels' in collection:
+            repo_labels = db.get_collection('trending_repo_names').aggregate(
+                [
                     {
-                        'from': 'repo_labels',
-                        'localField': 'name',
-                        'foreignField': 'repo',
-                        'as': 'array'
-                    }
-                },
-                {'$unwind': '$array'},
-                {'$project': {'array.name': True, 'name': True, '_id': False}}
-            ])
-            nameList = []
-            company = []
-            for obj in query:
-                company.append(obj['name'])
-                nameList.append(obj['array']['name'])
+                        '$lookup': {
+                            'from': 'repo_labels',
+                            'localField': 'name',
+                            'foreignField': 'repo',
+                            'as': 'array',
+                        },
+                    },
+                    {'$unwind': '$array'},
+                    {
+                        '$project': {
+                            'array.name': True,
+                            'name': True,
+                            '_id': False,
+                        }
+                    },
+                ]
+            )
 
-            numArray = np.array([])
-            for i in range(len(company)):
-                temp = np.array([[company[i],nameList[i]]])
-                numArray = np.append(numArray,temp)
+            label_names = []
+            repo_companies = []
 
-            numArray = numArray.reshape(int((numArray.size/2)),2)
+            for repo_label in repo_labels:
+                label_names.append(repo_label['array']['name'])
+                repo_companies.append(repo_label['name'])
 
-            return numArray
+            num_array = np.array([])
+            for i in range(len(repo_companies)):
+                temp = np.array([[repo_companies[i], label_names[i]]])
+                num_array = np.append(num_array, temp)
 
+            num_array = num_array.reshape(int((num_array.size / 2)), 2)
+
+            return num_array
