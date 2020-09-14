@@ -24,8 +24,8 @@ def updateTrendings(collectionsList):
         # query the new trending repos
         trendings_repos = db.get_collection('repos').find(
             {'fork': False,
-             '$or': [{'stargazers_count': {'$gte': 1000}},
-                     {'watchers_count': {'$gte': 1000}}]})
+             '$or': [{'stargazers_count': {'$gte': 500}},
+                     {'watchers_count': {'$gte': 500}}]})
         # creating the new collection with data
         db.create_collection('Trendings')
         db['Trendings'].insert_many(trendings_repos)
