@@ -23,8 +23,8 @@ def update_trending_repos_collection(trending_repos_list):
             {
                 'fork': False,
                 '$or': [
-                    {'stargazers_count': {'$gte': 1000}},
-                    {'watchers_count': {'$gte': 1000}},
+                    {'stargazers_count': {'$gte': 500}},
+                    {'watchers_count': {'$gte': 500}},
                 ],
             },
         )
