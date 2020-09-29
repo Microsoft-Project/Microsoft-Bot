@@ -1,5 +1,3 @@
-import time
-
 from pymongo import MongoClient
 
 from repo_label_extractor import RepoLabel
@@ -16,7 +14,6 @@ def update_trending_repos_collection(trending_repos_list):
     if 'trending_repos' in trending_repos_list:
         # drop old trending_repos collection
         db.drop_collection('trending_repos')
-        time.sleep(2)
     if 'repos' in trending_repos_list:
         # query new trending_repos collection
         trending_repos = db.get_collection('repos').find(
@@ -40,7 +37,6 @@ def update_trending_repo_names_collection(trending_repo_names_list):
     if 'trending_repo_names' in trending_repo_names_list:
         # drop the old trending repos data
         db.drop_collection('trending_repo_names')
-        time.sleep(2)
     if 'trending_repos' in trending_repo_names_list:
         trending_repo_names = db.get_collection('trending_repos').distinct(
             'name'
@@ -56,11 +52,9 @@ def update_trending_repo_names_collection(trending_repo_names_list):
 def populate_label_data(trending_labels, np_list_1, np_list_2, np_list_3):
     if 'trending_labels' in trending_labels:
         db.drop_collection('trending_labels')
-        time.sleep(2)
 
     db.create_collection('trending_labels')
     for i in range(get_list_size(np_list_1)):
-        # Todo: Avoid shadowing built-in types!!
         tuple = {
             'company': np_list_1[i : i + 1, 0][0],
             'label': np_list_1[i : i + 1, 1][0],
@@ -85,6 +79,9 @@ def populate_label_data(trending_labels, np_list_1, np_list_2, np_list_3):
 def get_list_size(np_list):
     return np_list.shape[0]
 
+
+def get_distinct_labels(labels_list):
+    return list((set(labels_list)))
 
 # only run when updating or creating 'trending_repos' collection
 # update_trending_repos_collection(collections)
