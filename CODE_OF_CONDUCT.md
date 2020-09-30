@@ -22,7 +22,7 @@ Our project plan is closely based off the papers and requirements provided by th
 
 ##### Sprint schedule: 
 
-###### Monday: Daily stand-up and work session
+###### Monday: Mid Sprint meeting and work session
 * Time: 12:00-13:00
 
 * Agenda:
@@ -30,11 +30,15 @@ Our project plan is closely based off the papers and requirements provided by th
 2. Ask questions (if any)
 3. Work on the taks.
 
-###### Wednesday: PO preparation meeting
+###### Tuesday: Work with assigned tasks
+* Time: flexible
+
+###### Wednesday: PO preparation meeting and retrospective
 * Time: flexible
 
 * Agenda:
 1. Prepare what is to be presented for the PO's
+2. Summarize sprint
 
 ###### Thursday: PO meeting & Sprint Planning
 * Time: 18:30-20:00
@@ -47,6 +51,11 @@ Our project plan is closely based off the papers and requirements provided by th
 3. Agree on the outcome of the incoming sprint.
 4. Assign members with work items from the backlog.
 5. Discuss possible risks related to the work items (if any) and how to address them properly and efficiently.
+
+###### Friday: Work with assigned tasks
+* Time: flexible
+
+###### Weekends: Vacation
 
 ______
 
