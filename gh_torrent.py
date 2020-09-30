@@ -1,8 +1,8 @@
 from pymongo import MongoClient
 
-from repo_label_extractor import RepoLabel
 from issues_label_extractor import IssueLabel
 from pull_request_label_extractor import PullRequestLabel
+from repo_label_extractor import RepoLabel
 
 client = MongoClient('mongodb://localhost:27017')
 db = client['github']
@@ -56,22 +56,22 @@ def populate_label_data(trending_labels, np_list_1, np_list_2, np_list_3):
     db.create_collection('trending_labels')
     for i in range(get_list_size(np_list_1)):
         tuple = {
-            'company': np_list_1[i : i + 1, 0][0],
-            'label': np_list_1[i : i + 1, 1][0],
+            'company': np_list_1[i: i + 1, 0][0],
+            'label': np_list_1[i: i + 1, 1][0],
         }
         db['trending_labels'].insert_one(tuple)
 
     for i in range(get_list_size(np_list_2)):
         tuple = {
-            'company': np_list_2[i : i + 1, 0][0],
-            'label': np_list_2[i : i + 1, 1][0],
+            'company': np_list_2[i: i + 1, 0][0],
+            'label': np_list_2[i: i + 1, 1][0],
         }
         db['trending_labels'].insert_one(tuple)
 
     for i in range(get_list_size(np_list_3)):
         tuple = {
-            'company': np_list_3[i : i + 1, 0][0],
-            'label': np_list_3[i : i + 1, 1][0],
+            'company': np_list_3[i: i + 1, 0][0],
+            'label': np_list_3[i: i + 1, 1][0],
         }
         db['trending_labels'].insert_one(tuple)
 
