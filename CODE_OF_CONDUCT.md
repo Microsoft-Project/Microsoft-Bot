@@ -64,9 +64,9 @@ ______
 * The regular meetings.
 * Whatsapp Messages.
 
-* Our definition of done contains that code is peer-reviewed. Individual contributions therefore need to be committed by Wednesday evening to allow for other team-members to review them. This will improve code quality and ensure a general understanding of all parts of our project.
+* Our definition of done contains that code is peer-reviewed. Individual contributions therefore need to be committed upon the agreed internal deadline to allow for other team-members to review them. This will improve code quality and ensure a general understanding of all parts of our project. If extensions are needed for a feature, it will be discussed and agreed on when feasible. 
 
-* There are multiple factors that can cause a task to be delayed, ranging from miscommunication to viruses. Due to this, there are few things we need to do to address the unexpected delays:
+* There are multiple factors that can cause a task to be delayed. There are few things we need to do to address and mitigate unexpected delays:
     * We need to track the team progress regularly.
     * Keep a regular communication flow.
 * On Thursdays we will assign tasks that will last for a week, a Sprint. These tasks will then be progress checked on Monday where we need a small presentation of the progress: 
