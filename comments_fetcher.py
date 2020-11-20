@@ -1,40 +1,19 @@
 import requests
+import corpus_processor as cp
+import clustering as cluster
+import analyse_cluster as ac
 
 
 def fetch_issue_data(repo_full_name):
-    bug = requests.get(f'https://api.github.com/repos/{repo_full_name}/issues?labels=bug')
-    doc = requests.get(f'https://api.github.com/repos/{repo_full_name}/issues?labels=documentation')
-    wont_fix = requests.get(f'https://api.github.com/repos/{repo_full_name}/issues?labels=wontfix')
-    duplicate = requests.get(f'https://api.github.com/repos/{repo_full_name}/issues?labels=duplicate')
-    enhancement = requests.get(f'https://api.github.com/repos/{repo_full_name}/issues?labels=enhancement')
-    good_first_issue = requests.get(f'https://api.github.com/repos/{repo_full_name}/issues?labels=good%20first%20issue')
-    help_wanted = requests.get(f'https://api.github.com/repos/{repo_full_name}/issues?labels=help%20wanted')
-    invalid = requests.get(f'https://api.github.com/repos/{repo_full_name}/issues?labels=invalid')
-    question = requests.get(f'https://api.github.com/repos/{repo_full_name}/issues?labels=question')
+    comment_list = []
+    for i in range(1, 6):
+        req = requests.get(
+            f'https://api.github.com/repos/{repo_full_name}/issues?state=all&since=2000-01-01T00:00:00Z&per_page=100&page=' + str(
+                i))
+        for doc in get_data_from_json(req):
+            comment_list.append(doc)
 
-    bug_list = get_data_from_json(bug)
-    doc_list = get_data_from_json(doc)
-    wont_fix_list = get_data_from_json(wont_fix)
-    duplicate_list = get_data_from_json(duplicate)
-    enhancement_list = get_data_from_json(enhancement)
-    good_first_issue_list = get_data_from_json(good_first_issue)
-    help_wanted_list = get_data_from_json(help_wanted)
-    invalid_list = get_data_from_json(invalid)
-    question_list = get_data_from_json(question)
-
-    hash_map = dict({
-        'bug': bug_list,
-        'documentation': doc_list,
-        'wont_fix': wont_fix_list,
-        'duplicate': duplicate_list,
-        'enhancement': enhancement_list,
-        'good_first_issue': good_first_issue_list,
-        'help_wanted': help_wanted_list,
-        'invalid': invalid_list,
-        'question': question_list
-    })
-
-    return hash_map
+    return comment_list
 
 
 def get_data_from_json(json_data):
@@ -52,5 +31,24 @@ def get_data_from_json(json_data):
     return tmp_arr
 
 
-# this is just for example
-# print(fetch_issue_data('nanoninja/docker-nginx-php-mysql'))
+processed_corpus = cp.processCorpus(fetch_issue_data('material-components/material-components-android'), 'english')
+
+print(processed_corpus)
+
+print('-----------')
+
+final_df = cluster.get_tfidf(processed_corpus)
+
+k = 8
+kmeans_results = cluster.run_KMeans(k, final_df)
+
+cluster.silhouette(kmeans_results, final_df, plot=True)
+
+best_result = 2
+kmeans = kmeans_results.get(best_result)
+
+final_df_array = final_df.to_numpy()
+prediction = kmeans.predict(final_df)
+n_feats = 20
+dfs = ac.get_top_features_cluster(final_df_array, prediction, n_feats, processed_corpus)
+ac.plotWords(dfs, 10)
