@@ -1,0 +1,20 @@
+{
+  "action": "opened",
+  "issue": {
+    "number": 1,
+    "user": {
+      "login": "doodle"
+    },
+    "title": "Testing",
+    "body": "This is a test."
+  },
+  "repository": {
+    "name": "testing-things",
+    "owner": {
+      "login": "doodle"
+    }
+  },
+  "installation": {
+    "id": 2
+  }
+}
