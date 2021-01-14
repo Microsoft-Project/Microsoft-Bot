@@ -1,0 +1,24 @@
+{
+  "name": "labelling-bot",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Issue Labelling Bot",
+  "repository": "https://github.com/totsteps/labelling-bot.git",
+  "homepage": "https://github.com/totsteps/labelling-bot",
+  "bugs": "https://github.com/totsteps/labelling-bot/issues",
+  "scripts": {
+    "start": "probot run ./src/index.js",
+    "dev": "nodemon --exec \"npm start\"",
+    "simulate": "node_modules/.bin/probot receive -e issues -p ./test/fixtures/issues.labeled.json ./src/index.js"
+  },
+  "dependencies": {
+    "axios": "^0.21.1",
+    "probot": "^10.9.3"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.6"
+  },
+  "engines": {
+    "node": ">= 10.13.0"
+  }
+}
