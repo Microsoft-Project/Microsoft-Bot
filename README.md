@@ -6,7 +6,7 @@ LabelBot is a Github application that can be used to automatically tag an issue 
 
 The maintainer of the repository can install this Github application on a repository of their choice to make the automatic labelling feature available for anyone who makes an issue on the repository.
 
-#Links 
+# Links 
 Read more about it here: <https://labelling-bot.netlify.app/>
 <br>
 Get it on Github:  <https://github.com/apps/labelling-bot>
